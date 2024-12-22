@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from .validators import validate_password, validate_email
 
-User  = get_user_model()
+User = get_user_model()
 
 class UserCreateView(generics.CreateAPIView):
     """
