@@ -15,8 +15,10 @@ class User(AbstractUser):
     - updated_at: дата и время последнего обновления пользователя.
     """
 
-    phone_number = models.CharField(max_length=15, **NULLABLE, help_text="Номер телефона")
-    date_of_birth = models.DateField(**NULLABLE, help_text="Дата рождения")
+    phone_number = models.CharField(
+        max_length=15, **NULLABLE, help_text="Номер телефона"
+    )
+    date_of_birth = models.DateField(help_text="Дата рождения")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, help_text="Дата редактирования")
 

@@ -4,6 +4,7 @@ from .validators import validate_age, validate_title
 
 NULLABLE = {"blank": True, "null": True}
 
+
 class Post(models.Model):
     """
     Представляет собой блог-пост.
@@ -16,10 +17,13 @@ class Post(models.Model):
         created_at (DateTimeField): Время создания поста.
         updated_at (DateTimeField): Время последнего обновления поста.
     """
-    title = models.CharField(max_length=255, validators=[validate_title], help_text="Заголовок поста")
+
+    title = models.CharField(
+        max_length=255, validators=[validate_title], help_text="Заголовок поста"
+    )
     text = models.TextField()
-    image = models.ImageField(upload_to='posts/', **NULLABLE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    image = models.ImageField(upload_to="posts/", **NULLABLE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -51,16 +55,16 @@ class Comment(models.Model):
         created_at (DateTimeField): Время создания комментария.
         updated_at (DateTimeField): Время последнего обновления комментария.
     """
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
 
     def __str__(self):
-        return f'Комментарий от {self.author} к {self.post}'
+        return f"Комментарий от {self.author} к {self.post}"

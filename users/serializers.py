@@ -20,10 +20,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'phone_number', 'date_of_birth', 'password']
+        fields = [
+            "id",
+            "username",
+            "email",
+            "phone_number",
+            "date_of_birth",
+            "password",
+        ]
         extra_kwargs = {
-            'password': {'write_only': True, 'validators': [validate_password]},
-            'email': {'validators': [validate_email]},
+            "password": {"write_only": True, "validators": [validate_password]},
+            "email": {"validators": [validate_email]},
         }
 
     def create(self, validated_data):
@@ -34,6 +41,6 @@ class UserSerializer(serializers.ModelSerializer):
         :return: созданный объект пользователя.
         """
         user = User(**validated_data)
-        user.set_password(validated_data['password'])
+        user.set_password(validated_data["password"])
         user.save()
         return user

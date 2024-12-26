@@ -11,8 +11,10 @@ def validate_password(value):
     :param value: значение пароля.
     :raises ValidationError: если пароль не соответствует требованиям.
     """
-    if len(value) < 8 or not re.search(r'\d', value):
-        raise ValidationError("Пароль должен содержать не менее 8 символов и включать цифры.")
+    if len(value) < 8 or not re.search(r"\d", value):
+        raise ValidationError(
+            "Пароль должен содержать не менее 8 символов и включать цифры."
+        )
 
 
 def validate_email(value):
@@ -24,6 +26,6 @@ def validate_email(value):
     :param value: значение адреса электронной почты.
     :raises ValidationError: если домен не разрешен.
     """
-    allowed_domains = ['mail.ru', 'yandex.ru']
+    allowed_domains = ["mail.ru", "yandex.ru"]
     if not any(value.endswith(domain) for domain in allowed_domains):
         raise ValidationError("Разрешены только домены: mail.ru, yandex.ru.")

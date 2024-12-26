@@ -1,5 +1,6 @@
 from rest_framework import permissions
 
+
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
     Разрешение, позволяющее редактировать и удалять только владельцам объекта.
