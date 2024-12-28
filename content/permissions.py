@@ -1,9 +1,9 @@
 from rest_framework import permissions
 
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
+class IsOwnerOrAdmin(permissions.BasePermission):
     """
-    Разрешение, позволяющее редактировать и удалять только владельцам объекта.
+    Разрешение, позволяющее редактировать и удалять только владельцам объекта или администраторам.
     Остальные пользователи могут только просматривать.
     """
 
@@ -11,5 +11,5 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # Разрешить доступ на чтение для всех
         if request.method in permissions.SAFE_METHODS:
             return True
-        # Разрешить доступ на запись только владельцу
-        return obj.author == request.user
+        # Разрешить доступ на запись только владельцу или администратору
+        return obj.author == request.user or request.user.is_staff

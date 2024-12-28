@@ -1,6 +1,8 @@
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+
+from .permissions import IsAdminUserOrReadOnly
 from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -64,7 +66,7 @@ class UserListView(generics.ListAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -77,7 +79,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAdminUserOrReadOnly]
 
     def get_queryset(self):
         """
