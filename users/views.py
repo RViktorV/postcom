@@ -1,10 +1,8 @@
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from rest_framework import status
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from .validators import validate_password, validate_email
 
 User = get_user_model()
 
