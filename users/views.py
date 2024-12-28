@@ -8,8 +8,8 @@ from .validators import validate_password, validate_email
 
 User = get_user_model()
 
-class UserCreateView(generics.CreateAPIView):
 
+class UserCreateView(generics.CreateAPIView):
     """
     Представление для регистрации новых пользователей.
 
@@ -17,8 +17,11 @@ class UserCreateView(generics.CreateAPIView):
     регистрации возвращает данные о пользователе и токены доступа
     (refresh и access) для аутентификации.
     """
+
     queryset = User.objects.all()  # Запрос для получения всех пользователей
-    permission_classes = [permissions.AllowAny]  # Разрешаем доступ для всех пользователей
+    permission_classes = [
+        permissions.AllowAny
+    ]  # Разрешаем доступ для всех пользователей
     serializer_class = UserSerializer  # Сериализатор для обработки данных регистрации
 
     def post(self, request, *args, **kwargs):
@@ -36,27 +39,35 @@ class UserCreateView(generics.CreateAPIView):
         Returns:
             Response: Ответ с данными о пользователе и токенами.
         """
-        serializer = self.get_serializer(data=request.data)  # Получаем сериализатор с данными запроса
+        serializer = self.get_serializer(
+            data=request.data
+        )  # Получаем сериализатор с данными запроса
         serializer.is_valid(raise_exception=True)  # Проверяем валидность данных
         user = serializer.save()  # Сохраняем нового пользователя
-        refresh = RefreshToken.for_user(user)  # Генерируем токены для нового пользователя
+        refresh = RefreshToken.for_user(
+            user
+        )  # Генерируем токены для нового пользователя
         return Response(
             {
-                "user": UserSerializer(user, context=self.get_serializer_context()).data,  # Данные пользователя
+                "user": UserSerializer(
+                    user, context=self.get_serializer_context()
+                ).data,  # Данные пользователя
                 "refresh": str(refresh),  # Токен refresh
                 "access": str(refresh.access_token),  # Токен access
             }
         )
 
-class UserListView(generics.ListAPIView):
 
+class UserListView(generics.ListAPIView):
     """
     Представление для получения списка всех пользователей.
     Доступно для авторизованных пользователей и администраторов.
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -65,6 +76,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     Администраторы могут управлять всеми пользователями,
     обычные пользователи могут редактировать только себя.
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]

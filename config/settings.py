@@ -1,9 +1,11 @@
 from pathlib import Path
+from datetime import timedelta
 from dotenv import load_dotenv
 import os
-from datetime import timedelta
+
 
 load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -62,24 +64,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postcom",
+        "NAME": os.getenv("NAME"),
         "USER": "postgres",
-        "PASSWORD": "1q2w3e",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
     }
 }
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_DB"),
-#         "USER": os.getenv("POSTGRES_USER"),
-#         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-#         "HOST": os.getenv("POSTGRES_HOST"),
-#         "PORT": os.getenv("POSTGRES_PORT"),
-#     }
-# }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,4 +120,3 @@ IMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
-
